@@ -51,7 +51,7 @@ parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
 #The dataset location is placed under /dataset
 parser.add_argument('--traindata', default="/dataset/" ,help='path to train dataset')
 parser.add_argument('--testdata', default="/dataset/test" ,help='path to test dataset')
-parser.add_argument('--epoch_size', type=int, default=80, help='how much epoch to train')
+parser.add_argument('--epoch_size', type=int, default=60, help='how much epoch to train')
 parser.add_argument('--batch_size', type=int, default=16, help='how much batch_size in epoch')
 if __name__ == '__main__':
 
@@ -66,7 +66,7 @@ if __name__ == '__main__':
     trainwtihloss = CustomWithLossCell(net,criterion)
     model = Model(network=trainwtihloss, optimizer=optimizer)
     config_ck = CheckpointConfig(save_checkpoint_steps=data.train_dataset.get_dataset_size(),
-                                 keep_checkpoint_max=6)
+                                 keep_checkpoint_max=20)
     time_cb = TimeMonitor(data_size=data.train_dataset.get_dataset_size())
     
     ckpt_save_dir = '/tmp/model'
