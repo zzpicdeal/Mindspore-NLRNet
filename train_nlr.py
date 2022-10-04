@@ -1,7 +1,7 @@
 import os 
 os.system('pip install opencv-contrib-python-headless')
-os.system('wget -P /tmp/code/ https://gitee.com/mindspore/mindspore/raw/r1.8/scripts/install/ubuntu-gpu-pip.sh')
-os.system('MINDSPORE_VERSION=1.8.1 bash -i /tmp/code/ubuntu-gpu-pip.sh')
+pip install https://ms-release.obs.cn-north-4.myhuaweicloud.com/1.8.1/MindSpore/gpu/x86_64/cuda-11.1/mindspore_gpu-1.8.1-cp37-cp37m-linux_x86_64.whl --trusted-host ms-release.obs.cn-north-4.myhuaweicloud.com -i https://pypi.tuna.tsinghua.edu.cn/simple
+
 import mindspore
 import  sys
 import  time
