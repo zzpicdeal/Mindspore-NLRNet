@@ -76,7 +76,7 @@ def _get_rank_info():
     return rank_size, rank_id
 
 class get_dataset():
-    def __init__(self,data_root=r'/dataset/{}',train='train',batch=16):
+    def __init__(self,data_root=r'/tmp/dataset/{}',train='train',batch=16):
         self.train_dataset = create_train_dataset(GenerDataSet(ResourceManager(resource=data_root),dtype=train),batch)
 
 
