@@ -51,7 +51,7 @@ parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
 #The dataset location is placed under /dataset
 parser.add_argument('--traindata', default="/dataset/" ,help='path to train dataset')
 parser.add_argument('--testdata', default="/dataset/test" ,help='path to test dataset')
-parser.add_argument('--epoch_size', type=int, default=40, help='how much epoch to train')
+parser.add_argument('--epoch_size', type=int, default=80, help='how much epoch to train')
 parser.add_argument('--batch_size', type=int, default=16, help='how much batch_size in epoch')
 if __name__ == '__main__':
 
