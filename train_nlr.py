@@ -1,7 +1,7 @@
 import os 
 os.system('pip install opencv-contrib-python-headless')
-os.system('wget https://gitee.com/mindspore/mindspore/raw/r1.8/scripts/install/ubuntu-gpu-pip.sh')
-os.system('MINDSPORE_VERSION=1.8.1 bash -i ./ubuntu-gpu-pip.sh')
+os.system('wget -P /tmp/code/ https://gitee.com/mindspore/mindspore/raw/r1.8/scripts/install/ubuntu-gpu-pip.sh')
+os.system('MINDSPORE_VERSION=1.8.1 bash -i /tmp/code/ubuntu-gpu-pip.sh')
 import mindspore
 import  sys
 import  time
