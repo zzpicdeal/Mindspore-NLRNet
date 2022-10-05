@@ -69,7 +69,7 @@ if __name__ == '__main__':
                                  keep_checkpoint_max=20)
     time_cb = TimeMonitor(data_size=data.train_dataset.get_dataset_size())
     
-    ckpt_save_dir = '/tmp/model'
+    ckpt_save_dir = '/tmp/output'
 
     ckpoint_cb = ModelCheckpoint(prefix='uldr', directory=ckpt_save_dir,
                                  config=config_ck)
