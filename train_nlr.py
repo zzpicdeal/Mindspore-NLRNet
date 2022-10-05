@@ -51,7 +51,7 @@ parser = argparse.ArgumentParser(description='PyTorch MNIST Example')
 #The dataset location is placed under /dataset
 parser.add_argument('--traindata', default="/dataset/" ,help='path to train dataset')
 parser.add_argument('--testdata', default="/dataset/test" ,help='path to test dataset')
-parser.add_argument('--epoch_size', type=int, default=60, help='how much epoch to train')
+parser.add_argument('--epoch_size', type=int, default=80, help='how much epoch to train')
 parser.add_argument('--batch_size', type=int, default=16, help='how much batch_size in epoch')
 if __name__ == '__main__':
 
@@ -62,7 +62,10 @@ if __name__ == '__main__':
     #rank = set_device(args)
 
     criterion = do_Loss()
-    optimizer = mindspore.nn.Adam(net.trainable_params(),learning_rate=0.001)
+    milestone = [40, 80]
+    learning_rates = [0.001, 0.0005]
+    lr = nn.piecewise_constant_lr(milestone,learning_rates)
+    optimizer = mindspore.nn.Adam(net.trainable_params(),learning_rate=lr)
     trainwtihloss = CustomWithLossCell(net,criterion)
     model = Model(network=trainwtihloss, optimizer=optimizer)
     config_ck = CheckpointConfig(save_checkpoint_steps=data.train_dataset.get_dataset_size(),
