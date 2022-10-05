@@ -11,7 +11,7 @@ import random
 # import gdal
 
 class ResourceManager(object):
-    def __init__(self, block_size=128, block_num = 1600, network='nlrnet', test_img='record_9.mat', dataset='WorldView2_reduce/reduce', resource=r'resource/{}',
+    def __init__(self, block_size=128, block_num = 1600, network='nlrnet', test_img='record_6.mat', dataset='WorldView2_reduce/reduce', resource=r'resource/{}',
                  warm_start=False, seed=1024):
         np.random.seed(seed)
         random.seed(seed)
