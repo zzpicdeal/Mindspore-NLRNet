@@ -65,7 +65,7 @@ if __name__ == '__main__':
     milestone = [40, 60]
     learning_rates = [0.001, 0.0005]
     lr = nn.piecewise_constant_lr(milestone,learning_rates)
-    optimizer = mindspore.nn.Adam(net.trainable_params(),learning_rate=lr)
+    optimizer = mindspore.nn.Adam(net.trainable_params(),learning_rate=0.0005)
     trainwtihloss = CustomWithLossCell(net,criterion)
     model = Model(network=trainwtihloss, optimizer=optimizer)
     config_ck = CheckpointConfig(save_checkpoint_steps=data.train_dataset.get_dataset_size(),
