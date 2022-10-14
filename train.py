@@ -139,8 +139,8 @@ def main():
         os.environ["DEVICE_NUM"] = str(args.device_num)
         os.environ["RANK_SIZE"] = str(args.device_num)   
     #初始化数据和模型存放目录
-    data_dir = workroot + 'data'  #先在训练镜像中定义数据集路径
-    train_dir = workroot + 'output' #先在训练镜像中定义输出路径
+    data_dir = workroot + 'data/'  #先在训练镜像中定义数据集路径
+    train_dir = workroot + 'output/' #先在训练镜像中定义输出路径
     print(os.getcwd())
     
     #parallel_init()
@@ -152,8 +152,8 @@ def main():
  ######################## 将数据集从obs拷贝到训练镜像中 （固定写法）########################   
     # 在训练环境中定义data_url和train_url，并把数据从obs拷贝到相应的固定路径，以下写法是将数据拷贝到/home/work/user-job-dir/data/目录下，可修改为其他目录
 
-    if local_rank%8==0:
-        ObsToEnv(args.data_url,data_dir)
+   
+    ObsToEnv(args.data_url,data_dir)
     #If the cache file does not exist, it means that the copy data has not been completed,
     #and Wait for 0th card to finish copying data
     print(os.listdir(data_dir))
