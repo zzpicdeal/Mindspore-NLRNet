@@ -56,7 +56,9 @@ parser = argparse.ArgumentParser(description='MindSpore Lenet Example')
 parser.add_argument('--data_url',
                     help='path to training/inference dataset folder',
                     default= workroot + '/data/')
-
+parser.add_argument('--multi_data_url',
+                    help='path to multi dataset',
+                    default= '/cache/data/')
 parser.add_argument('--train_url',
                     help='model folder to save/load',
                     default= workroot + '/model/')
@@ -99,6 +101,34 @@ def ObsToEnv(obs_data_url, data_dir):
     except Exception as e:
         print('moxing download {} to {} failed: '.format(obs_data_url, data_dir) + str(e))
     return 
+
+
+### Copy multiple datasets from obs to training image ###  
+
+def MultiObsToEnv(multi_data_url, data_dir):
+    #--multi_data_url is json data, need to do json parsing for multi_data_url
+    multi_data_json = json.loads(multi_data_url)  
+    for i in range(len(multi_data_json)):
+        path = data_dir + "/" + multi_data_json[i]["dataset_name"]
+        if not os.path.exists(path):
+            os.makedirs(path)
+        try:
+            mox.file.copy_parallel(multi_data_json[i]["dataset_url"], path) 
+            print("Successfully Download {} to {}".format(multi_data_json[i]["dataset_url"],path))
+        except Exception as e:
+            print('moxing download {} to {} failed: '.format(
+                multi_data_json[i]["dataset_url"], path) + str(e))
+    #Set a cache file to determine whether the data has been copied to obs. 
+    #If this file exists during multi-card training, there is no need to copy the dataset multiple times.
+    f = open("/cache/download_input.txt", 'w')    
+    f.close()
+    try:
+        if os.path.exists("/cache/download_input.txt"):
+            print("download_input succeed")
+    except Exception as e:
+        print("download_input failed")
+    return 
+
  ######################## 将输出的模型拷贝到obs（固定写法）########################  
 def EnvToObs(train_dir, obs_train_url):
     try:
@@ -153,7 +183,8 @@ def main():
     # 在训练环境中定义data_url和train_url，并把数据从obs拷贝到相应的固定路径，以下写法是将数据拷贝到/home/work/user-job-dir/data/目录下，可修改为其他目录
 
    
-    ObsToEnv(args.data_url,data_dir)
+    #ObsToEnv(args.data_url,data_dir)
+    MultiObsToEnv(args.multi_data_url, data_dir)
     #If the cache file does not exist, it means that the copy data has not been completed,
     #and Wait for 0th card to finish copying data
     print(os.listdir(data_dir))
