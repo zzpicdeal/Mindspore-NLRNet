@@ -141,6 +141,7 @@ def main():
     #初始化数据和模型存放目录
     data_dir = workroot + 'data'  #先在训练镜像中定义数据集路径
     train_dir = workroot + 'output' #先在训练镜像中定义输出路径
+    print(os.getcwd())
     print(os.listdir(data_dir))
     #parallel_init()
     #context.set_auto_parallel_context(parallel_mode=ParallelMode.DATA_PARALLEL, gradients_mean=True)
