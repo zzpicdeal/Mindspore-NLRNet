@@ -49,18 +49,19 @@ class ResourceManager(object):
 
 
                 # there are not qb-real
-            record = loadmat(join(self.resource.format('/full'),'full6.mat')) # self.dataset+'_real'
+            if fr_test:
+                record = loadmat(join(self.resource.format('/full'),'full6.mat')) # self.dataset+'_real'
 
-                
-            lrms = record['ms'].astype(np.float32)
-            pan = record['pan'].astype(np.float32)
-            # print(lrms.shape,pan.shape)
+                    
+                lrms = record['ms'].astype(np.float32)
+                pan = record['pan'].astype(np.float32)
+                # print(lrms.shape,pan.shape)
 
-            dsize = pan.shape
-            self.fr_test_lrms = lrms
-            self.fr_pan = pan[:,:,np.newaxis]
-            # handle the full resolution dataset
-            self.process_fr_test_data(dsize, self.dataset)
+                dsize = pan.shape
+                self.fr_test_lrms = lrms
+                self.fr_pan = pan[:,:,np.newaxis]
+                # handle the full resolution dataset
+                self.process_fr_test_data(dsize, self.dataset)
             # handle the res dataset
             if not fr_test:
                 self.preprocess()
