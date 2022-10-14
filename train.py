@@ -32,7 +32,7 @@ from mindspore.context import ParallelMode
 
 
 #from src.tools.criterion import get_criterion, NetWithLoss
-from tools import set_device,logCallBack
+from tools import set_device
 
 from mindspore.communication.management import get_group_size
 from mindspore.communication.management import get_rank
