@@ -154,8 +154,7 @@ def main():
         ObsToEnv(args.data_url,data_dir)
     #If the cache file does not exist, it means that the copy data has not been completed,
     #and Wait for 0th card to finish copying data
-    while not os.path.exists("/cache/download_input.txt"):
-        time.sleep(1)  
+  
     set_seed(args.seed)
     
     mode = {
