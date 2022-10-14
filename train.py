@@ -71,7 +71,7 @@ parser.add_argument("--batch_size", default=8, type=int, metavar="N",
 
 parser.add_argument("--device_id", default=0, type=int, help="Device Id")
 parser.add_argument("--device_num", default=1, type=int, help="device num")
-parser.add_argument("--epochs", default=40, type=int, metavar="N", help="number of total epochs to run")
+parser.add_argument("--epochs", default=80, type=int, metavar="N", help="number of total epochs to run")
 
 parser.add_argument("--seed", default=1996, type=int, help="seed for initializing training. ")
 parser.add_argument("--save_every", default=20, type=int, help="Save every ___ epochs(default:2)")
@@ -179,8 +179,9 @@ def main():
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
     if not os.path.exists(train_dir):
-
+    
         os.makedirs(train_dir)
+    '''
     if not os.path.exists(reduce_dir):
         os.makedirs(reduce_dir)
     if not os.path.exists(full_dir):
@@ -207,12 +208,13 @@ def main():
 
     os.system('unzip -o /cache/reduce.zip -d /cache/data/reduce/')
     os.system('unzip -o /cache/full.zip -d /cache/data/full/')
+    '''
  ######################## 将数据集从obs拷贝到训练镜像中 （固定写法）########################   
     # 在训练环境中定义data_url和train_url，并把数据从obs拷贝到相应的固定路径，以下写法是将数据拷贝到/home/work/user-job-dir/data/目录下，可修改为其他目录
 
    
     #ObsToEnv(args.data_url,data_dir)
-    #MultiObsToEnv(args.multi_data_url, data_dir)
+    MultiObsToEnv(args.multi_data_url, data_dir)
     #If the cache file does not exist, it means that the copy data has not been completed,
     #and Wait for 0th card to finish copying data
     print(os.listdir(data_dir))
