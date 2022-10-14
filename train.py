@@ -142,7 +142,7 @@ def main():
     data_dir = workroot + 'data'  #先在训练镜像中定义数据集路径
     train_dir = workroot + 'output' #先在训练镜像中定义输出路径
     print(os.getcwd())
-    print(os.listdir(data_dir))
+    
     #parallel_init()
     #context.set_auto_parallel_context(parallel_mode=ParallelMode.DATA_PARALLEL, gradients_mean=True)
     if not os.path.exists(data_dir):
@@ -156,7 +156,7 @@ def main():
         ObsToEnv(args.data_url,data_dir)
     #If the cache file does not exist, it means that the copy data has not been completed,
     #and Wait for 0th card to finish copying data
-  
+    print(os.listdir(data_dir))
     set_seed(args.seed)
     
     mode = {
