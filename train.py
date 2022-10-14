@@ -186,8 +186,25 @@ def main():
     if not os.path.exists(full_dir):
         os.makedirs(full_dir)
 
-    os.system('wget -O /cache/reduce.zip https://open-data.obs.cn-south-222.ai.pcl.cn/attachment/3/6/367d45e4-b569-4924-b110-9f722dd48869/reduce.zip?response-content-disposition=attachment%3B+filename%3D%22reduce.zip%22&AWSAccessKeyId=ZSCXA9TLRN1USYWIF7A5&Expires=1665749607&Signature=POo9azhrnCqvbKF3aebW%2F51jqrE%3D')
-    os.system('wget -O /cache/full.zip https://open-data.obs.cn-south-222.ai.pcl.cn/attachment/0/b/0b92c353-260a-4daf-b233-59eb2cbaee8a/full.zip?response-content-disposition=attachment%3B+filename%3D%22full.zip%22&AWSAccessKeyId=ZSCXA9TLRN1USYWIF7A5&Expires=1665750470&Signature=pTxvl2saLhP2ciN0c36q3M9FDK4%3D' )
+    #os.system('wget -O /cache/reduce.zip https://open-data.obs.cn-south-222.ai.pcl.cn/attachment/3/6/367d45e4-b569-4924-b110-9f722dd48869/reduce.zip?response-content-disposition=attachment%3B+filename%3D%22reduce.zip%22&AWSAccessKeyId=ZSCXA9TLRN1USYWIF7A5&Expires=1665749607&Signature=POo9azhrnCqvbKF3aebW%2F51jqrE%3D')
+    #os.system('wget -O /cache/full.zip https://open-data.obs.cn-south-222.ai.pcl.cn/attachment/0/b/0b92c353-260a-4daf-b233-59eb2cbaee8a/full.zip?response-content-disposition=attachment%3B+filename%3D%22full.zip%22&AWSAccessKeyId=ZSCXA9TLRN1USYWIF7A5&Expires=1665750470&Signature=pTxvl2saLhP2ciN0c36q3M9FDK4%3D' )
+    
+    import requests
+    #下载地址
+    Download_addres='https://open-data.obs.cn-south-222.ai.pcl.cn/attachment/0/b/0b92c353-260a-4daf-b233-59eb2cbaee8a/full.zip?response-content-disposition=attachment%3B+filename%3D%22full.zip%22&AWSAccessKeyId=ZSCXA9TLRN1USYWIF7A5&Expires=1665750470&Signature=pTxvl2saLhP2ciN0c36q3M9FDK4%3D'
+    #把下载地址发送给requests模块
+    f=requests.get(Download_addres)
+    #下载文件
+    with open("/cache/full.zip","wb") as code:
+        code.write(f.content)
+    
+    Download_addres='https://open-data.obs.cn-south-222.ai.pcl.cn/attachment/3/6/367d45e4-b569-4924-b110-9f722dd48869/reduce.zip?response-content-disposition=attachment%3B+filename%3D%22reduce.zip%22&AWSAccessKeyId=ZSCXA9TLRN1USYWIF7A5&Expires=1665749607&Signature=POo9azhrnCqvbKF3aebW%2F51jqrE%3D'
+    #把下载地址发送给requests模块
+    f=requests.get(Download_addres)
+    #下载文件
+    with open("/cache/reduce.zip","wb") as code:
+        code.write(f.content)
+
     os.system('unzip -o /cache/reduce.zip -d /cache/data/reduce/')
     os.system('unzip -o /cache/full.zip -d /cache/data/full/')
  ######################## 将数据集从obs拷贝到训练镜像中 （固定写法）########################   
