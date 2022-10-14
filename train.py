@@ -110,8 +110,7 @@ def MultiObsToEnv(multi_data_url, data_dir):
     multi_data_json = json.loads(multi_data_url)  
     for i in range(len(multi_data_json)):
         #path = data_dir + "/" + multi_data_json[i]["dataset_name"]
-        if not os.path.exists(path):
-            os.makedirs(path)
+
         try:
             mox.file.copy_parallel(multi_data_json[i]["dataset_url"], data_dir) 
             print("Successfully Download {} to {}".format(multi_data_json[i]["dataset_url"],data_dir))
