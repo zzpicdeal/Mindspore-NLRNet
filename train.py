@@ -164,9 +164,9 @@ def main():
     device_num, rank_id = _get_rank_info()
 
     if device_num == 1 :
-        context.set_context(mode=mode[0], device_target=args.device_target)
+        context.set_context(mode=mode[1], device_target=args.device_target)
     else:
-        context.set_context(mode=mode[0], device_target=args.device_target)
+        context.set_context(mode=mode[1], device_target=args.device_target)
         
     #context.set_context(enable_graph_kernel=False)
     if args.device_target == "Ascend":
