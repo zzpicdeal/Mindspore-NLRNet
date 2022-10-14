@@ -32,7 +32,7 @@ from mindspore.context import ParallelMode
 
 
 #from src.tools.criterion import get_criterion, NetWithLoss
-from tools import set_device
+from tools import set_device,logCallBack
 
 from mindspore.communication.management import get_group_size
 from mindspore.communication.management import get_rank
@@ -43,16 +43,12 @@ import moxing as mox
 from nlrinit import NLRNet
 from mindspore import dtype as mstype
 from loss import do_Loss
-
+import time
 from data import get_dataset,_get_rank_info
 
-environment = 'train'  
-if environment == 'debug':
-    workroot = '/home/ma-user/work' #调试任务使用该参数
-else:
-    workroot = '/home/work/user-job-dir' # 训练任务使用该参数
+
 print('current work mode:' + os.getcwd() + ', workroot:' + os.getcwd())
-workroot = os.getcwd()+'/'
+workroot = '/cache'+'/'
 parser = argparse.ArgumentParser(description='MindSpore Lenet Example')
 
 # define 2 parameters for running on modelArts
@@ -88,17 +84,8 @@ parser.add_argument(
     help='device where the code will be implemented (default: CPU),若要在启智平台上使用NPU，需要在启智平台训练界面上加上运行参数device_target=Ascend')
 
 #init()
-def parallel_init():
 
 
-    init()
-    rank = get_rank()
-    device_num = get_group_size()
-    context.reset_auto_parallel_context()
-    parallel_mode = context.ParallelMode.DATA_PARALLEL
-    context.set_auto_parallel_context(parallel_mode=parallel_mode,
-                                        gradients_mean=True,
-                                        device_num=device_num)
 
 random_seed = 1996
 np.random.seed(random_seed)
@@ -138,12 +125,22 @@ def main():
     
     print(os.listdir(workroot))
     args = parser.parse_args()
+    device_num = int(os.getenv('RANK_SIZE'))
+
+    # set device_id and init for multi-card training
+    context.set_context(mode=context.GRAPH_MODE, device_target=args.device_target, device_id=int(os.getenv('ASCEND_DEVICE_ID')))
+    context.reset_auto_parallel_context()
+    context.set_auto_parallel_context(device_num = device_num, parallel_mode=ParallelMode.DATA_PARALLEL, gradients_mean=True, parameter_broadcast=True)
+    init()
+    #Copying obs data does not need to be executed multiple times, just let the 0th card copy the data
+    local_rank=int(os.getenv('RANK_ID'))
+
     if "DEVICE_NUM" not in os.environ.keys():
         os.environ["DEVICE_NUM"] = str(args.device_num)
         os.environ["RANK_SIZE"] = str(args.device_num)   
     #初始化数据和模型存放目录
     data_dir = workroot + '/data'  #先在训练镜像中定义数据集路径
-    train_dir = workroot + '/model' #先在训练镜像中定义输出路径
+    train_dir = workroot + '/output' #先在训练镜像中定义输出路径
     #parallel_init()
     #context.set_auto_parallel_context(parallel_mode=ParallelMode.DATA_PARALLEL, gradients_mean=True)
     if not os.path.exists(data_dir):
@@ -152,10 +149,13 @@ def main():
         os.makedirs(train_dir)
  ######################## 将数据集从obs拷贝到训练镜像中 （固定写法）########################   
     # 在训练环境中定义data_url和train_url，并把数据从obs拷贝到相应的固定路径，以下写法是将数据拷贝到/home/work/user-job-dir/data/目录下，可修改为其他目录
-    ObsToEnv(args.data_url,data_dir)
-    with open(train_dir+'/test.txt','a') as f:
-        pass
-    EnvToObs(train_dir, 's3://lmh/output/')
+
+    if local_rank%8==0:
+        ObsToEnv(args.data_url,data_dir)
+    #If the cache file does not exist, it means that the copy data has not been completed,
+    #and Wait for 0th card to finish copying data
+    while not os.path.exists("/cache/download_input.txt"):
+        time.sleep(1)  
     set_seed(args.seed)
     
     mode = {
@@ -175,15 +175,16 @@ def main():
         #context.set_context(enable_auto_mixed_precision=True)
     #rank = set_device(args)
     net = NLRNet()
-    #con
-    #mindspore.load_checkpoint('/code/init-uldr_1-20_700.ckpt',net)
+
     data = get_dataset(workroot + 'data/{}')
+    #data = get_dataset(workroot + '/{}')
     batch_num = data.train_dataset.get_dataset_size()
     #rank = set_device(args)
     import mindspore.nn as nn
     milestone = [40, 80]
     learning_rates = [0.001, 0.0005]
     lr = nn.piecewise_constant_lr(milestone,learning_rates)
+    log_cb = logCallBack()
     criterion = do_Loss()
     optimizer = mindspore.nn.Adam(net.trainable_params(),learning_rate=0.0005)
     trainwtihloss = CustomWithLossCell(net,criterion)
@@ -194,17 +195,18 @@ def main():
     
     ckpt_save_dir = train_dir
 
-    ckpoint_cb = ModelCheckpoint(prefix='init-uldr', directory=ckpt_save_dir,
+    ckpoint_cb = ModelCheckpoint(prefix='nlr', directory=ckpt_save_dir,
                                  config=config_ck)
     loss_cb = LossMonitor(100)
 
-    print(_get_device_num())
+    
     print("begin train")
-    model.train(int(80), data.train_dataset,
-                callbacks=[time_cb, ckpoint_cb, loss_cb],
+    model.train(int(args.epochs), data.train_dataset,
+                callbacks=[time_cb, ckpoint_cb, loss_cb,log_cb],
                 dataset_sink_mode=False)
     print("train success")
-    EnvToObs(train_dir, 's3://lmh/output/')
+    EnvToObs(train_dir, args.train_url)
+    #EnvToObs(train_dir, 's3://lmh/output/')
 
 if __name__ == '__main__':
     main()

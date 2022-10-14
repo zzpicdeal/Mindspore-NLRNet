@@ -2,6 +2,7 @@
 from resource_manager import ResourceManager
 import mindspore.dataset as ds
 import os
+from mindspore.communication.management import get_rank, get_group_size
 class GenerDataSet():
     def __init__(self, resource_manager: ResourceManager, for_train=True, dtype='fr_test'):
         self.for_train = for_train
@@ -54,12 +55,13 @@ def create_train_dataset(dataset,batch=16):
 
     device_num, rank_id = _get_rank_info()
 
-    if device_num == 1 :
+    #if device_num == 1 :
 
-        train_ds = ds.GeneratorDataset(dataset, column_names=["input_images0","input_images1","input_images2","input_images3", "target_images"], shuffle=False,num_parallel_workers=8)
-    else:
-        train_ds = ds.GeneratorDataset(dataset, column_names=["input_images0","input_images1","input_images2","input_images3", "target_images"], shuffle=False,num_parallel_workers=1,
-                                         num_shards=device_num, shard_id=rank_id)
+        #train_ds = ds.GeneratorDataset(dataset, column_names=["input_images0","input_images1","input_images2","input_images3", "target_images"], shuffle=False,num_parallel_workers=8)
+    shard_id = get_rank() 
+    num_shards = get_group_size()
+    train_ds = ds.GeneratorDataset(dataset, column_names=["input_images0","input_images1","input_images2","input_images3", "target_images"], shuffle=False,num_parallel_workers=1,
+                                         num_shards=num_shards, shard_id=shard_id)
 
     train_ds = train_ds.batch(batch, drop_remainder=False)
 
