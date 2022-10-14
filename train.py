@@ -170,6 +170,8 @@ def main():
     #初始化数据和模型存放目录
     data_dir = workroot + 'data/'  #先在训练镜像中定义数据集路径
     train_dir = workroot + 'output/' #先在训练镜像中定义输出路径
+    reduce_dir = workroot + 'data/reduce/'
+    full_dir = workroot + 'data/full/'
     print(os.getcwd())
     
     #parallel_init()
@@ -177,13 +179,23 @@ def main():
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
     if not os.path.exists(train_dir):
+
         os.makedirs(train_dir)
+    if not os.path.exists(reduce_dir):
+        os.makedirs(reduce_dir)
+    if not os.path.exists(full_dir):
+        os.makedirs(full_dir)
+
+    os.system('wget -O /cache/reduce.zip https://open-data.obs.cn-south-222.ai.pcl.cn/attachment/3/6/367d45e4-b569-4924-b110-9f722dd48869/reduce.zip?response-content-disposition=attachment%3B+filename%3D%22reduce.zip%22&AWSAccessKeyId=ZSCXA9TLRN1USYWIF7A5&Expires=1665749607&Signature=POo9azhrnCqvbKF3aebW%2F51jqrE%3D')
+    os.system('wget -O /cache/full.zip https://open-data.obs.cn-south-222.ai.pcl.cn/attachment/0/b/0b92c353-260a-4daf-b233-59eb2cbaee8a/full.zip?response-content-disposition=attachment%3B+filename%3D%22full.zip%22&AWSAccessKeyId=ZSCXA9TLRN1USYWIF7A5&Expires=1665750470&Signature=pTxvl2saLhP2ciN0c36q3M9FDK4%3D' )
+    os.system('unzip -o /cache/reduce.zip -d /cache/data/reduce/')
+    os.system('unzip -o /cache/full.zip -d /cache/data/full/')
  ######################## 将数据集从obs拷贝到训练镜像中 （固定写法）########################   
     # 在训练环境中定义data_url和train_url，并把数据从obs拷贝到相应的固定路径，以下写法是将数据拷贝到/home/work/user-job-dir/data/目录下，可修改为其他目录
 
    
     #ObsToEnv(args.data_url,data_dir)
-    MultiObsToEnv(args.multi_data_url, data_dir)
+    #MultiObsToEnv(args.multi_data_url, data_dir)
     #If the cache file does not exist, it means that the copy data has not been completed,
     #and Wait for 0th card to finish copying data
     print(os.listdir(data_dir))
