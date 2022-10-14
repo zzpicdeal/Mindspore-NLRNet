@@ -215,7 +215,7 @@ def main():
     milestone = [40, 80]
     learning_rates = [0.001, 0.0005]
     lr = nn.piecewise_constant_lr(milestone,learning_rates)
-    log_cb = logCallBack()
+
     criterion = do_Loss()
     optimizer = mindspore.nn.Adam(net.trainable_params(),learning_rate=0.0005)
     trainwtihloss = CustomWithLossCell(net,criterion)
@@ -233,7 +233,7 @@ def main():
     
     print("begin train")
     model.train(int(args.epochs), data.train_dataset,
-                callbacks=[time_cb, ckpoint_cb, loss_cb,log_cb],
+                callbacks=[time_cb, ckpoint_cb, loss_cb],
                 dataset_sink_mode=False)
     print("train success")
     EnvToObs(train_dir, args.train_url)
