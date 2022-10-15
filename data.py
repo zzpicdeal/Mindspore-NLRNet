@@ -63,7 +63,7 @@ def create_train_dataset(dataset,batch=16):
     train_ds = ds.GeneratorDataset(dataset, column_names=["input_images0","input_images1","input_images2","input_images3", "target_images"], shuffle=False,num_parallel_workers=1,
                                          num_shards=num_shards, shard_id=shard_id)
 
-    train_ds = train_ds.batch(batch, drop_remainder=False)
+    train_ds = train_ds.batch(batch, drop_remainder=True)
 
     return train_ds
     
