@@ -32,8 +32,6 @@ from mindspore.common import set_seed
 from mindspore.train.callback import ModelCheckpoint, CheckpointConfig, LossMonitor, TimeMonitor
 from mindspore.context import ParallelMode
 
-
-
 from mindspore.communication.management import get_group_size
 from mindspore.communication.management import get_rank
 from mindspore.communication.management import init
