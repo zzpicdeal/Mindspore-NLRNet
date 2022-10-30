@@ -18,11 +18,11 @@ from mindspore.parallel._utils import _get_device_num
 from mindspore.common import set_seed
 from mindspore.context import ParallelMode
 from mindspore.communication.management import init, get_rank, get_group_size
-from nlrinit import NLRNet
+from src.nlrinit import NLRNet
 from mindspore import dtype as mstype
-from loss import do_Loss
-from tools import sam, ergas, scc, D_lambda, D_s_2, qindex
-from data import get_dataset
+from src.loss import do_Loss
+from src.tools import sam, ergas, scc, D_lambda, D_s_2, qindex
+from src.data import get_dataset
 
 context.set_context(mode=context.PYNATIVE_MODE, device_target="Ascend")
 
