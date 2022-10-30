@@ -87,7 +87,7 @@ def test_img_restore( output, fr=False):
     print(test_img.shape)
     return test_img
 
-
+workroot = '/home/work/user-job-dir/'
 parser = argparse.ArgumentParser(description='MindSpore')
 
 # define 2 parameters for running on modelArts
@@ -99,7 +99,9 @@ parser.add_argument('--ckpt',
 parser.add_argument('--eval_type',
                     help='test or fr_test',
                     default='test')
-
+parser.add_argument('--data_path',
+                    help='full data path',
+                    default=workroot + 'data/{}')
 def main():
     
     
