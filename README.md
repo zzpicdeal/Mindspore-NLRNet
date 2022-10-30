@@ -81,7 +81,12 @@ Loss = 空间损失*85+带相关损失*15+谱损失*15
 ```shell
 python train.py
 ```
-
+启智平台
+训练启动文件train_npu.py
+```shell
+#Or bash
+bash scripts/run_single_train.sh [DEVICE_ID] [BACTHSIZE] [EPOCHS_NUMS]   
+```
 训练时间 约44h
 
 
@@ -94,6 +99,10 @@ Epoch :80 最后一轮训练
 # 终端启动
 ```shell
 Python eval.py --ckpt [模型权重路径] --eval_type [验证模式]
+
+#Or bash
+bash scripts/run_eval.sh [DEVICE_ID] [模型权重路径] [验证模式]  
+for example: bash cripts/run_eval.sh 0 'path/xx.ckpt' 'fr_test' 
 ```
 
 # 4.参考资料
