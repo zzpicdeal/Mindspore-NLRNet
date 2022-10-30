@@ -111,7 +111,7 @@ def main():
     net.set_train(False)
     if args.eval_type == 'test':
         print('load data')
-        data = get_dataset(train=args.eval_type)
+        data = get_dataset(args.data_path,train=args.eval_type)
         print('start test')
         batch_num = data.train_dataset.get_dataset_size()
 
@@ -129,7 +129,7 @@ def main():
         print('erags :',np.array(erags).mean())
     else:
         print('load data')
-        data = get_dataset(train=args.eval_type)
+        data = get_dataset(args.data_path,train=args.eval_type)
         print('start test')
         collect_output, collect_label = [], []
         for data_ in data.train_dataset.create_dict_iterator():
