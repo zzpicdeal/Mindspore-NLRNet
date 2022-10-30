@@ -170,8 +170,8 @@ def main():
     # 在训练环境中定义data_url和train_url，并把数据从obs拷贝到相应的固定路径，以下写法是将数据拷贝到/home/work/user-job-dir/data/目录下，可修改为其他目录
 
    
-    ObsToEnv(args.data_url,data_dir)
-    #MultiObsToEnv(args.multi_data_url, data_dir)
+    #ObsToEnv(args.data_url,data_dir)
+    MultiObsToEnv(args.multi_data_url, data_dir)
     #If the cache file does not exist, it means that the copy data has not been completed,
     #and Wait for 0th card to finish copying data
     print(os.listdir(data_dir))
@@ -195,8 +195,8 @@ def main():
     #rank = set_device(args)
     net = NLRNet()
 
-    #data = get_dataset(workroot + 'data/{}')
-    data = get_dataset(workroot + '/{}')
+    data = get_dataset(workroot + 'data/{}')
+    #data = get_dataset(workroot + '/{}')
     batch_num = data.train_dataset.get_dataset_size()
     #rank = set_device(args)
     import mindspore.nn as nn
