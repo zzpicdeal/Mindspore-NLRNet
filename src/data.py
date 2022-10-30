@@ -54,7 +54,7 @@ def create_train_dataset(dataset,batch=16):
     '''
 
     device_num, rank_id = _get_rank_info()
-
+    print(device_num)
     if device_num == 1 :
 
         train_ds = ds.GeneratorDataset(dataset, column_names=["input_images0","input_images1","input_images2","input_images3", "target_images"], shuffle=False,num_parallel_workers=8)
