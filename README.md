@@ -98,10 +98,10 @@ Epoch :80 最后一轮训练
 ![encoder](imgs/erags.JPG) 
 # 终端启动
 ```shell
-Python eval.py --ckpt [模型权重路径] --eval_type [验证模式]
+Python eval.py --ckpt [模型权重路径] --eval_type [验证模式] --data_path [数据路径]
 
 #Or bash
-bash scripts/run_eval.sh [DEVICE_ID] [模型权重路径] [验证模式]  
+bash scripts/run_eval.sh [DEVICE_ID] [模型权重路径] [验证模式] [数据路径]
 for example: bash cripts/run_eval.sh 0 'path/xx.ckpt' 'fr_test' 
 ```
 
