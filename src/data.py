@@ -1,5 +1,5 @@
 
-from resource_manager import ResourceManager
+from .resource_manager import ResourceManager
 import mindspore.dataset as ds
 import os
 from mindspore.communication.management import get_rank, get_group_size
