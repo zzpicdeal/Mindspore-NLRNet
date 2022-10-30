@@ -213,7 +213,7 @@ def main():
     time_cb = TimeMonitor(data_size=data.train_dataset.get_dataset_size())
     
     ckpt_save_dir = train_dir
-    ckpt_save_dir = train_dir + "/" + str(get_rank()) + "/"
+    #ckpt_save_dir = train_dir + "/" + str(get_rank()) + "/"
     ckpoint_cb = ModelCheckpoint(prefix='nlr', directory=ckpt_save_dir,
                                  config=config_ck)
     loss_cb = LossMonitor(100)
