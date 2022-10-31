@@ -105,7 +105,7 @@ Python eval.py --ckpt [模型权重路径] --eval_type [验证模式] --data_pat
 
 #Or bash
 bash scripts/run_eval.sh [DEVICE_ID] [模型权重路径] [验证模式] [数据路径]
-for example: bash cripts/run_eval.sh 0 'path/xx.ckpt' 'fr_test' 
+for example: bash cripts/run_eval.sh 0 'path/xx.ckpt' 'fr_test' ./data/{}
 ```
 
 # 4.参考资料
