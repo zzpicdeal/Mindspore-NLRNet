@@ -28,6 +28,17 @@
 Openl 开源wordview2 数据集，提供World-View 2 卫星数据。(https://git.openi.org.cn/deng/WordView-2/datasets)
 1.3代码提交地址：
 https://git.openi.org.cn/lmh447669785/NLR/src/branch/master/
+
+本地数据集请存放如下格式
+```bash
+├── data
+└─ reduce             # 
+    ├── reduce_1.mat					//数据集
+    ...
+    ├── reduce_9.mat					//数据集
+└─ full            # 
+    ├── full6.mat					//数据集
+```
 # [环境要求](#环境要求)
 镜像 Ascend-Powered-Engine | mindspore_1.7.0-cann_5.1.0-py_3.7-euler_2.8.3-aarch64
 规格	Ascend: 1*Ascend910|CPU: 24核 96GB
@@ -62,7 +73,7 @@ Loss = 空间损失*85+带相关损失*15+谱损失*15
 中原智算modelarts平台下 创建单卡训练任务，请保证obs：/data压缩包为以下结构
  ```bash
 ├── data		       				
-        ├──full    
+    ├──full    
         ├──record_1.mat
         ├──record_3.mat
         ├──record_4.mat
