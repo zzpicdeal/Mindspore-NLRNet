@@ -89,7 +89,7 @@ bash scripts/run_single_train.sh [DEVICE_ID] [BACTHSIZE] [EPOCHS_NUMS] [DATAPATH
 ```
 启智平台
 训练启动文件train_npu.py
-选择数据集
+![encoder](imgs/train5.JPG)
 训练时间 约44h
 
 
