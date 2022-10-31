@@ -16,14 +16,14 @@
 
 echo "=============================================================================================================="
 echo "Please run the script as: "
-echo "Usage: bash scripts/run_single_train.sh [DEVICE_ID] [BACTHSIZE] [EPOCHS_NUMS] [DATAPATH] "
+echo "Usage: bash scripts/run_single_train.sh [DEVICE_ID] [BACTHSIZE] [EPOCHS_NUMS] [DATAPATH] [SAVEPATH] "
 echo "for example: bash cripts/run_eval.sh 0 32 80 ./data/{}"
 echo "It is better to use absolute path."
 echo "================================================================================================================="
 
-if [ $# != 4 ]
+if [ $# != 5 ]
 then
-    echo "Usage:bash scripts/run_single_train.sh [DEVICE_ID] [BACTHSIZE] [EPOCHS_NUMS] [DATAPATH]"
+    echo "Usage:bash scripts/run_single_train.sh [DEVICE_ID] [BACTHSIZE] [EPOCHS_NUMS] [DATAPATH] [SAVEPATH]"
     exit 1
 fi
 
@@ -33,7 +33,7 @@ export DEVICE_ID=$1
 BACTHSIZE=$2
 EPOCHS_NUMS=$3
 DATAPATH=$4
-
+SAVEPATH=$5
 
 
 rm -rf LOG$1
@@ -47,7 +47,8 @@ echo "start eval for device $1"
 env > env.log
 
 python main.py      
---workroot=$DATAPATH \
+--data_path=$DATAPATH \
+--save_path=$SAVEPATH \
 --epochs=$EPOCHS_NUMS \
 --batch_szie=$BACTHSIZE > log.txt 2>&1 &
 
