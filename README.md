@@ -73,20 +73,14 @@ Loss = 空间损失*85+带相关损失*15+谱损失*15
 
 ![encoder](imgs/train2.JPG) 
 
-终端启动
-请注释train.py 中151、201行 mox拷贝数据指令
-请在训练目录下准备好数据集文件及存放格式
-请修改 train.py 中173行 数据路径
+
 终端运行 
 ```shell
-python train.py
+bash scripts/run_single_train.sh [DEVICE_ID] [BACTHSIZE] [EPOCHS_NUMS] [DATAPATH] [SAVEPATH]
 ```
 启智平台
 训练启动文件train_npu.py
-```shell
-#Or bash
-bash scripts/run_single_train.sh [DEVICE_ID] [BACTHSIZE] [EPOCHS_NUMS]   
-```
+选择数据集
 训练时间 约44h
 
 
