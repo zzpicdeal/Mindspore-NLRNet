@@ -34,13 +34,20 @@ https://git.openi.org.cn/lmh447669785/NLR/src/branch/master/
 # [脚本及样例代码](#Code)
  ```bash
 ├── code
+
     ├── eval.py				//验证脚本  
-    ├── train.py               //训练脚本     						
-    ├── data.py					//数据集
-    ├── nlrinit.py		//模型
-    ├── resource_manager.py  //数据集预处理
-    ├── tools.py
-    ├── loss.py  		//损失函数
+    ├── train.py               //启智多卡训练脚本  
+    ├── train_npu.py				//启智平台训练脚本
+    ├── main.py					//本地训练脚本   						
+    └─ src             # 辅助脚本
+        ├── data.py					//数据集
+        ├── nlrinit.py		//模型
+        ├── resource_manager.py  //数据集预处理
+        ├── tools.py
+        ├── loss.py               		//损失函数
+    └─ scripts
+        ├─run_eval.sh
+        ├─run_single_train.sh 
 ├── README.md   //README 
 ```
 
@@ -76,6 +83,8 @@ Loss = 空间损失*85+带相关损失*15+谱损失*15
 
 终端运行 
 ```shell
+python main --data_path ./data/{} --save_path ./model/ --batch_size 32 --epochs 80
+#or 
 bash scripts/run_single_train.sh [DEVICE_ID] [BACTHSIZE] [EPOCHS_NUMS] [DATAPATH] [SAVEPATH]
 ```
 启智平台
